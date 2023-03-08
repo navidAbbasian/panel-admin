@@ -5,7 +5,7 @@ namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\API\BaseController as BaseController;
 use App\Http\Resources\Magazine\ProductResource;
-use App\Models\Product;
+use App\Models\Shop\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 

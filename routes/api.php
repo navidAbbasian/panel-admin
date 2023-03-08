@@ -11,13 +11,20 @@ use App\Http\Controllers\API\Magazine\SettingController;
 use App\Http\Controllers\API\Magazine\SliderController;
 use App\Http\Controllers\API\Magazine\TagController;
 use App\Http\Controllers\API\Shop\BrandController;
-use App\Http\Controllers\API\Shop\CategoryController as ShopCategory;
+use App\Http\Controllers\API\Shop\CarouselController;
 use App\Http\Controllers\API\Shop\ColorController;
+use App\Http\Controllers\API\Shop\ConfigController;
+use App\Http\Controllers\API\Shop\FooterController;
+use App\Http\Controllers\API\Shop\FooterItemController;
 use App\Http\Controllers\API\Shop\GiftOfferController;
 use App\Http\Controllers\API\Shop\MenuController;
+use App\Http\Controllers\API\Shop\ModeTransportationController;
+use App\Http\Controllers\API\Shop\OtherPageController;
 use App\Http\Controllers\API\Shop\RedirectController;
 use App\Http\Controllers\API\Shop\SaleCategoryController;
+use App\Http\Controllers\API\Shop\CategoryController as ShopCategory;
 use App\Http\Controllers\API\Shop\TagController as ShopTag;
+use App\Http\Controllers\API\Shop\PageController as ShopPage;
 use App\Http\Controllers\API\Shop\TaxClassesController;
 use App\Http\Controllers\API\ProductController;
 use App\Http\Controllers\API\RegisterController;
@@ -61,8 +68,12 @@ Route::middleware('auth:api')->group( function (){
         Route::apiResource('brands', BrandController::class);
         Route::apiResource('redirects', RedirectController::class);
         Route::apiResource('menus', MenuController::class);
+        Route::apiResource('footers' , FooterController::class);
+        Route::apiResource('footeritems', FooterItemController::class);
+        Route::apiResource('carousels', CarouselController::class);
+        Route::apiResource('configs', ConfigController::class);
+        Route::apiResource('otherpages' , OtherPageController::class);
+        Route::apiResource('pages' , ShopPage::class);
+        Route::apiResource('modetransportations', ModeTransportationController::class);
     });
 });
-
-
-

@@ -5,7 +5,7 @@ namespace App\Http\Controllers\API\Shop;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Shop\StoreBrandRequest;
 use App\Http\Resources\Shop\BrandResource;
-use App\Models\Brand;
+use App\Models\Shop\Brand;
 use Exception;
 use Illuminate\Http\Request;
 

@@ -5,7 +5,7 @@ namespace App\Http\Controllers\API\Shop;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Shop\StoreSaleCategoryRequest;
 use App\Http\Resources\Shop\SaleCategoryResource;
-use App\Models\SaleCategory;
+use App\Models\Shop\SaleCategory;
 use Exception;
 use Illuminate\Http\Request;
 

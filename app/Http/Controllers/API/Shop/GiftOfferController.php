@@ -5,7 +5,7 @@ namespace App\Http\Controllers\API\Shop;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Shop\StoreGiftOfferRequest;
 use App\Http\Resources\Shop\GiftOfferResource;
-use App\Models\GiftOffers;
+use App\Models\Shop\GiftOffers;
 use Exception;
 use Illuminate\Http\Request;
 

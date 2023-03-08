@@ -5,7 +5,7 @@ namespace App\Http\Controllers\API\Shop;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Shop\StoreColorRequest;
 use App\Http\Resources\Shop\ColorResource;
-use App\Models\Color;
+use App\Models\Shop\Color;
 use Exception;
 use Illuminate\Http\Request;
 

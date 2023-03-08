@@ -5,7 +5,7 @@ namespace App\Http\Controllers\API\Shop;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Shop\StoreRedirectRequest;
 use App\Http\Resources\Shop\RedirectResource;
-use App\Models\Redirect;
+use App\Models\Shop\Redirect;
 use Exception;
 use Illuminate\Http\Request;
 

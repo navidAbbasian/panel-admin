@@ -5,7 +5,7 @@ namespace App\Http\Controllers\API\Shop;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Shop\StoreTagRequest;
 use App\Http\Resources\Shop\TagResource;
-use App\Models\Tag;
+use App\Models\Shop\Tag;
 use Exception;
 use Illuminate\Http\Request;
 

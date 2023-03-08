@@ -5,7 +5,7 @@ namespace App\Http\Controllers\API\Shop;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Shop\StoreMenuRequest;
 use App\Http\Resources\Shop\MenuResource;
-use App\Models\Menu;
+use App\Models\Shop\Menu;
 use Exception;
 use Illuminate\Http\Request;
 
