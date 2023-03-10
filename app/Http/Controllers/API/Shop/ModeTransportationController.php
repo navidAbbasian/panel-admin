@@ -7,6 +7,7 @@ use App\Http\Requests\Shop\StoreModeTransportationRequest;
 use App\Http\Resources\Shop\ModeTransportationResource;
 use App\Models\Shop\ModeTransportation;
 use Exception;
+use http\Env\Response;
 use Illuminate\Http\Request;
 
 class ModeTransportationController extends Controller
@@ -33,17 +34,12 @@ class ModeTransportationController extends Controller
     }
     public function store(StoreModeTransportationRequest $request)
     {
-        $input = $request->all();
-        try {
 
-            $mode_transportation=ModeTransportation::create($input);
-            $response = [
-                'success'=>true,
-                'data'=>new ModeTransportationResource($mode_transportation),
-                'message'=>'transportation store success',
-            ];
-            return response()->json($response, 200);
-        }catch (Exception $e) {
+        try {
+            $input = $request->all();
+            $mod = ModeTransportation::create($input);
+            return response()->json($mod ,200);
+        }catch (Exception $e){
             $message = $e->getMessage();
             var_dump('Exception Message: '. $message);
 
@@ -91,10 +87,10 @@ class ModeTransportationController extends Controller
     {
         try {
             $input = $request->all();
-            $mode_transportation = ModeTransportation::where('id', $id)->update($input);
+            $mod = ModeTransportation::where('id', $id)->update($input);
             $response = [
                 'success' => true,
-                'message' => 'update transportation success',
+                'message' => 'update page success',
             ];
             return response()->json($response, 200);
         }catch (Exception $e){
@@ -110,4 +106,5 @@ class ModeTransportationController extends Controller
             exit;
         }
     }
+
 }

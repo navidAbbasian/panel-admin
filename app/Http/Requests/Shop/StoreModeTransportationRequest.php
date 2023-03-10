@@ -15,7 +15,8 @@ class StoreModeTransportationRequest extends FormRequest
     public function rules()
     {
         return [
-            'title' => 'required|unique:mode_transportation	,title,'.$this->id,
+            'title' => 'required'
+            //|unique:mode_transportation	,title,'.$this->id,
         ];
     }
     public function attributes(): array
