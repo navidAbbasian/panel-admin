@@ -24,15 +24,23 @@ use App\Http\Controllers\API\Shop\MenuController;
 use App\Http\Controllers\API\Shop\ModeTransportationController;
 use App\Http\Controllers\API\Shop\NewsletterController;
 use App\Http\Controllers\API\Shop\OtherPageController;
+use App\Http\Controllers\API\Shop\ProductColorController;
+use App\Http\Controllers\API\Shop\ProductController;
+use App\Http\Controllers\API\Shop\ProductImageController;
+use App\Http\Controllers\API\Shop\ProductOptionController;
+use App\Http\Controllers\API\Shop\ProductTabController;
+use App\Http\Controllers\API\Shop\ProductTabPropertyController;
+use App\Http\Controllers\API\Shop\ProductTabReviewController;
+use App\Http\Controllers\API\Shop\ProductTabsVotesController;
+use App\Http\Controllers\API\Shop\ProductWaterfallsController;
 use App\Http\Controllers\API\Shop\ProvinceController;
 use App\Http\Controllers\API\Shop\RedirectController;
 use App\Http\Controllers\API\Shop\SaleCategoryController;
-use App\Http\Controllers\API\Shop\CategoryController as ShopCategory;
+use App\Http\Controllers\API\Shop\ProductCategoryController as ShopCategory;
 use App\Http\Controllers\API\Shop\TagController as ShopTag;
 use App\Http\Controllers\API\Shop\PageController as ShopPage;
 use App\Http\Controllers\API\Shop\FaqController as ShopFaq;
 use App\Http\Controllers\API\Shop\TaxClassesController;
-use App\Http\Controllers\API\ProductController;
 use App\Http\Controllers\API\RegisterController;
 use Illuminate\Support\Facades\Route;
 
@@ -42,7 +50,6 @@ Route::post('login' , [RegisterController::class , 'Login']);
 Route::middleware('auth:api')->group( function (){
 
     Route::prefix('magazine')->group(function () {
-        Route::resource('products' , ProductController::class);
         Route::resource('tags', TagController::class);
         Route::resource('sliders', SliderController::class);
         Route::resource('setting', SettingController::class);
@@ -101,5 +108,14 @@ Route::middleware('auth:api')->group( function (){
         });
         Route::apiResource('newsletter', NewsletterController::class);
         Route::apiResource('customerlists', CustomerListController::class);
+        Route::apiResource('products' , ProductController::class);
+        Route::apiResource('producttabs', ProductTabController::class);
+        Route::apiResource('producttabproperty', ProductTabPropertyController::class);
+        Route::apiResource('productoption',ProductOptionController::class);
+        Route::apiResource('productcolor', ProductColorController::class);
+        Route::apiResource('productimages', ProductImageController::class);
+        Route::apiResource('producttabreview', ProductTabReviewController::class);
+        Route::apiResource('producttabvote', ProductTabsVotesController::class);
+        Route::apiResource('productwaterfall', ProductWaterfallsController::class);
     });
 });

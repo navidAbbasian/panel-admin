@@ -6,7 +6,7 @@ use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Exceptions\HttpResponseException;
 
-class StoreTagRequest extends FormRequest
+class StoreProductColorWholesaleRequest extends FormRequest
 {
     public function authorize()
     {
@@ -16,24 +16,19 @@ class StoreTagRequest extends FormRequest
     public function rules()
     {
         return [
-            'slug' => 'required|unique:tags,slug,'.$this->id,
-            'title' => 'required',
-            'body' => 'required'
+            'price' => 'required',
         ];
     }
     public function attributes(): array
     {
         return [
-            'slug' => 'آدرس کوتاه',
-            'title'=> 'عنوان',
-            'body'=>'توضیحات'
+            'price'=> 'قیمت',
         ];
     }
     public function messages(): array
     {
         return [
             'required' => ':attribute الزامی است',
-            'unique' => ':attribute نباید تکراری باشد',
         ];
     }
     public function failedValidation(Validator $validator)

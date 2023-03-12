@@ -6,7 +6,7 @@ use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Exceptions\HttpResponseException;
 
-class StoreTagRequest extends FormRequest
+class StoreProductRequest extends FormRequest
 {
     public function authorize()
     {
@@ -16,9 +16,9 @@ class StoreTagRequest extends FormRequest
     public function rules()
     {
         return [
-            'slug' => 'required|unique:tags,slug,'.$this->id,
+            'slug' => 'required|unique:products,slug,'.$this->id,
             'title' => 'required',
-            'body' => 'required'
+            'description' => 'required'
         ];
     }
     public function attributes(): array
@@ -26,7 +26,7 @@ class StoreTagRequest extends FormRequest
         return [
             'slug' => 'آدرس کوتاه',
             'title'=> 'عنوان',
-            'body'=>'توضیحات'
+            'description'=>'توضیحات'
         ];
     }
     public function messages(): array
@@ -47,4 +47,5 @@ class StoreTagRequest extends FormRequest
     {
         dd('failedAuthorization');
     }
+
 }

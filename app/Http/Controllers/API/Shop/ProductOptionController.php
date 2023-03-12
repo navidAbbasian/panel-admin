@@ -3,44 +3,45 @@
 namespace App\Http\Controllers\API\Shop;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Shop\StoreCustomerListRequest;
-use App\Http\Resources\Shop\CustomerListResource;
-use App\Models\Shop\CustomersList;
+use App\Http\Requests\Shop\StoreProductOptionRequest;
+use App\Http\Resources\Shop\ProductOptionResource;
+use App\Models\Shop\ProductOption;
 use Exception;
 use Illuminate\Http\Request;
 
-class CustomerListController extends Controller
+class ProductOptionController extends Controller
 {
     public function index(Request $request)
     {
-        $customer_list = CustomersList::query();
+        $option = ProductOption::query();
         if ($request->only('search') && $request->only('col')) {
             $search = explode(' ', $request->get('search'));
             $col = $request->get('col');
-            $customer_list = $customer_list->where(function ($q) use ($col, $search) {
+            $option = $option->where(function ($q) use ($col, $search) {
                 foreach ($search as $val) {
                     $q->orWhere($col, 'like', '%' . $val . '%');
                 }
             });
         }
         if ($request->only('sort')) {
-            $customer_list = $customer_list->orderBy($request->get('sort'), $request->get('dir'));
+            $option = $option->orderBy($request->get('sort'), $request->get('dir'));
         } else {
-            $customer_list = $customer_list->orderBy('id', 'ASC');
+            $option = $option->orderBy('id', 'ASC');
         }
-        $customer_list = $customer_list->paginate(15);
-        return response()->json($customer_list, 200);
+        $option = $option->paginate(15);
+        return response()->json($option, 200);
     }
-    public function store(StoreCustomerListRequest $request)
+    public function store(StoreProductOptionRequest $request)
     {
+
         $input = $request->all();
         try {
             $input['createdBy'] = $request->user()->id;
-            $customer_list= CustomersList::create($input);
+            $option= ProductOption::create($input);
             $response = [
                 'success'=>true,
-                'data'=>new CustomerListResource($customer_list),
-                'message'=>'tag store success',
+                'data'=>new ProductOptionResource($option),
+                'message'=>'option store success',
             ];
             return response()->json($response, 200);
         }catch (Exception $e) {
@@ -58,19 +59,19 @@ class CustomerListController extends Controller
     }
     public function show($id)
     {
-        $customer_list = CustomersList::find($id);
+        $option = ProductOption::find($id);
         try {
-            if (!$customer_list==null){
+            if (!$option==null){
                 $response = [
                     'success' => true,
-                    'data'=>new CustomerListResource($customer_list),
-                    'message' => 'show tag success'
+                    'data'=>new ProductOptionResource($option),
+                    'message' => 'show option success'
                 ];
                 return response()->json($response, 200);
             }else{
                 $response = [
                     'success' => false,
-                    'message' => 'tag is not exist',
+                    'message' => 'option is not exist',
                 ];
                 return response()->json($response, 401);
             }
@@ -87,15 +88,15 @@ class CustomerListController extends Controller
             exit;
         }
     }
-    public function update(StoreCustomerListRequest $request, $id)
+    public function update(StoreProductOptionRequest $request, $id)
     {
         try {
             $input = $request->all();
             $input['editedBy'] = $request->user()->id;
-            $customer_list = CustomersList::where('id', $id)->update($input);
+            $option = ProductOption::where('id', $id)->update($input);
             $response = [
                 'success' => true,
-                'message' => 'update tag success',
+                'message' => 'update option success',
             ];
             return response()->json($response, 200);
         }catch (Exception $e){

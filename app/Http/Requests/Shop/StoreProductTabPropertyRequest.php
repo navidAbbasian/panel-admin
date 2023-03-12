@@ -6,27 +6,24 @@ use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Exceptions\HttpResponseException;
 
-class StoreTagRequest extends FormRequest
+class StoreProductTabPropertyRequest extends FormRequest
 {
     public function authorize()
     {
         return true;
     }
-
     public function rules()
     {
         return [
-            'slug' => 'required|unique:tags,slug,'.$this->id,
-            'title' => 'required',
-            'body' => 'required'
+            'title' => 'required|unique:product_tab_property,title,'.$this->id,
+            'description' => 'required'
         ];
     }
     public function attributes(): array
     {
         return [
-            'slug' => 'آدرس کوتاه',
             'title'=> 'عنوان',
-            'body'=>'توضیحات'
+            'description'=>'توضیحات'
         ];
     }
     public function messages(): array

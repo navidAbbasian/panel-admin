@@ -6,7 +6,7 @@ use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Exceptions\HttpResponseException;
 
-class StoreTagRequest extends FormRequest
+class StoreProductImageRequest extends FormRequest
 {
     public function authorize()
     {
@@ -16,17 +16,13 @@ class StoreTagRequest extends FormRequest
     public function rules()
     {
         return [
-            'slug' => 'required|unique:tags,slug,'.$this->id,
-            'title' => 'required',
-            'body' => 'required'
+            'title' => 'required|unique:product_image,title,'.$this->id,
         ];
     }
     public function attributes(): array
     {
         return [
-            'slug' => 'آدرس کوتاه',
             'title'=> 'عنوان',
-            'body'=>'توضیحات'
         ];
     }
     public function messages(): array

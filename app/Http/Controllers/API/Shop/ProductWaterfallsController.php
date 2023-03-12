@@ -3,44 +3,44 @@
 namespace App\Http\Controllers\API\Shop;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Shop\StoreCustomerListRequest;
-use App\Http\Resources\Shop\CustomerListResource;
-use App\Models\Shop\CustomersList;
+use App\Http\Requests\Shop\StoreProductWaterfallsRequest;
+use App\Http\Resources\Shop\ProductWaterfallsResource;
+use App\Models\Shop\ProductWaterfalls;
 use Exception;
 use Illuminate\Http\Request;
 
-class CustomerListController extends Controller
+class ProductWaterfallsController extends Controller
 {
     public function index(Request $request)
     {
-        $customer_list = CustomersList::query();
+        $waterfall = ProductWaterfalls::query();
         if ($request->only('search') && $request->only('col')) {
             $search = explode(' ', $request->get('search'));
             $col = $request->get('col');
-            $customer_list = $customer_list->where(function ($q) use ($col, $search) {
+            $waterfall = $waterfall->where(function ($q) use ($col, $search) {
                 foreach ($search as $val) {
                     $q->orWhere($col, 'like', '%' . $val . '%');
                 }
             });
         }
         if ($request->only('sort')) {
-            $customer_list = $customer_list->orderBy($request->get('sort'), $request->get('dir'));
+            $waterfall = $waterfall->orderBy($request->get('sort'), $request->get('dir'));
         } else {
-            $customer_list = $customer_list->orderBy('id', 'ASC');
+            $waterfall = $waterfall->orderBy('id', 'ASC');
         }
-        $customer_list = $customer_list->paginate(15);
-        return response()->json($customer_list, 200);
+        $waterfall = $waterfall->paginate(15);
+        return response()->json($waterfall, 200);
     }
-    public function store(StoreCustomerListRequest $request)
+    public function store(StoreProductWaterfallsRequest $request)
     {
         $input = $request->all();
         try {
             $input['createdBy'] = $request->user()->id;
-            $customer_list= CustomersList::create($input);
+            $waterfall= ProductWaterfalls::create($input);
             $response = [
                 'success'=>true,
-                'data'=>new CustomerListResource($customer_list),
-                'message'=>'tag store success',
+                'data'=>new ProductWaterfallsResource($waterfall),
+                'message'=>'waterfall store success',
             ];
             return response()->json($response, 200);
         }catch (Exception $e) {
@@ -58,19 +58,19 @@ class CustomerListController extends Controller
     }
     public function show($id)
     {
-        $customer_list = CustomersList::find($id);
+        $waterfall = ProductWaterfalls::find($id);
         try {
-            if (!$customer_list==null){
+            if (!$waterfall==null){
                 $response = [
                     'success' => true,
-                    'data'=>new CustomerListResource($customer_list),
-                    'message' => 'show tag success'
+                    'data'=>new ProductWaterfallsResource($waterfall),
+                    'message' => 'show waterfall success'
                 ];
                 return response()->json($response, 200);
             }else{
                 $response = [
                     'success' => false,
-                    'message' => 'tag is not exist',
+                    'message' => 'waterfall is not exist',
                 ];
                 return response()->json($response, 401);
             }
@@ -87,15 +87,15 @@ class CustomerListController extends Controller
             exit;
         }
     }
-    public function update(StoreCustomerListRequest $request, $id)
+    public function update(StoreProductWaterfallsRequest $request, $id)
     {
         try {
             $input = $request->all();
             $input['editedBy'] = $request->user()->id;
-            $customer_list = CustomersList::where('id', $id)->update($input);
+            $waterfall = ProductWaterfalls::where('id', $id)->update($input);
             $response = [
                 'success' => true,
-                'message' => 'update tag success',
+                'message' => 'update waterfall success',
             ];
             return response()->json($response, 200);
         }catch (Exception $e){

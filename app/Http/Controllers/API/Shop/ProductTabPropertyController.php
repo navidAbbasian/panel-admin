@@ -3,44 +3,44 @@
 namespace App\Http\Controllers\API\Shop;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Shop\StoreCustomerListRequest;
-use App\Http\Resources\Shop\CustomerListResource;
-use App\Models\Shop\CustomersList;
+use App\Http\Requests\Shop\StoreProductTabPropertyRequest;
+use App\Http\Resources\Shop\ProductTabPropertyResource;
+use App\Models\Shop\ProductTabProperty;
 use Exception;
 use Illuminate\Http\Request;
 
-class CustomerListController extends Controller
+class ProductTabPropertyController extends Controller
 {
     public function index(Request $request)
     {
-        $customer_list = CustomersList::query();
+        $tab_props = ProductTabProperty::query();
         if ($request->only('search') && $request->only('col')) {
             $search = explode(' ', $request->get('search'));
             $col = $request->get('col');
-            $customer_list = $customer_list->where(function ($q) use ($col, $search) {
+            $tab_props = $tab_props->where(function ($q) use ($col, $search) {
                 foreach ($search as $val) {
                     $q->orWhere($col, 'like', '%' . $val . '%');
                 }
             });
         }
         if ($request->only('sort')) {
-            $customer_list = $customer_list->orderBy($request->get('sort'), $request->get('dir'));
+            $tab_props = $tab_props->orderBy($request->get('sort'), $request->get('dir'));
         } else {
-            $customer_list = $customer_list->orderBy('id', 'ASC');
+            $tab_props = $tab_props->orderBy('id', 'ASC');
         }
-        $customer_list = $customer_list->paginate(15);
-        return response()->json($customer_list, 200);
+        $tab_props = $tab_props->paginate(15);
+        return response()->json($tab_props, 200);
     }
-    public function store(StoreCustomerListRequest $request)
+    public function store(StoreProductTabPropertyRequest $request)
     {
         $input = $request->all();
         try {
             $input['createdBy'] = $request->user()->id;
-            $customer_list= CustomersList::create($input);
+            $tab_props= ProductTabProperty::create($input);
             $response = [
                 'success'=>true,
-                'data'=>new CustomerListResource($customer_list),
-                'message'=>'tag store success',
+                'data'=>new ProductTabPropertyResource($tab_props),
+                'message'=>'Tab Property store success',
             ];
             return response()->json($response, 200);
         }catch (Exception $e) {
@@ -58,12 +58,12 @@ class CustomerListController extends Controller
     }
     public function show($id)
     {
-        $customer_list = CustomersList::find($id);
+        $tab_props = ProductTabProperty::find($id);
         try {
-            if (!$customer_list==null){
+            if (!$tab_props==null){
                 $response = [
                     'success' => true,
-                    'data'=>new CustomerListResource($customer_list),
+                    'data'=>new ProductTabPropertyResource($tab_props),
                     'message' => 'show tag success'
                 ];
                 return response()->json($response, 200);
@@ -87,12 +87,12 @@ class CustomerListController extends Controller
             exit;
         }
     }
-    public function update(StoreCustomerListRequest $request, $id)
+    public function update(StoreProductTabPropertyRequest $request, $id)
     {
         try {
             $input = $request->all();
             $input['editedBy'] = $request->user()->id;
-            $customer_list = CustomersList::where('id', $id)->update($input);
+            $tab_props = ProductTabProperty::where('id', $id)->update($input);
             $response = [
                 'success' => true,
                 'message' => 'update tag success',

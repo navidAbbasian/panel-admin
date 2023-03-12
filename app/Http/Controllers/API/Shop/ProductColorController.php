@@ -3,44 +3,45 @@
 namespace App\Http\Controllers\API\Shop;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Shop\StoreCustomerListRequest;
-use App\Http\Resources\Shop\CustomerListResource;
-use App\Models\Shop\CustomersList;
+use App\Http\Requests\Shop\StoreProductColorRequest;
+use App\Http\Resources\Shop\ProductColorResource;
+use App\Models\Shop\ProductColor;
 use Exception;
 use Illuminate\Http\Request;
 
-class CustomerListController extends Controller
+class ProductColorController extends Controller
 {
     public function index(Request $request)
     {
-        $customer_list = CustomersList::query();
+        $color = ProductColor::query();
         if ($request->only('search') && $request->only('col')) {
             $search = explode(' ', $request->get('search'));
             $col = $request->get('col');
-            $customer_list = $customer_list->where(function ($q) use ($col, $search) {
+            $color = $color->where(function ($q) use ($col, $search) {
                 foreach ($search as $val) {
                     $q->orWhere($col, 'like', '%' . $val . '%');
                 }
             });
         }
         if ($request->only('sort')) {
-            $customer_list = $customer_list->orderBy($request->get('sort'), $request->get('dir'));
+            $color = $color->orderBy($request->get('sort'), $request->get('dir'));
         } else {
-            $customer_list = $customer_list->orderBy('id', 'ASC');
+            $color = $color->orderBy('id', 'ASC');
         }
-        $customer_list = $customer_list->paginate(15);
-        return response()->json($customer_list, 200);
+        $color = $color->paginate(15);
+        return response()->json($color, 200);
     }
-    public function store(StoreCustomerListRequest $request)
+    public function store(StoreProductColorRequest $request)
     {
         $input = $request->all();
         try {
             $input['createdBy'] = $request->user()->id;
-            $customer_list= CustomersList::create($input);
+
+            $color= ProductColor::create($input);
             $response = [
                 'success'=>true,
-                'data'=>new CustomerListResource($customer_list),
-                'message'=>'tag store success',
+                'data'=>new ProductColorResource($color),
+                'message'=>'color store success',
             ];
             return response()->json($response, 200);
         }catch (Exception $e) {
@@ -58,19 +59,19 @@ class CustomerListController extends Controller
     }
     public function show($id)
     {
-        $customer_list = CustomersList::find($id);
+        $color = ProductColor::find($id);
         try {
-            if (!$customer_list==null){
+            if (!$color==null){
                 $response = [
                     'success' => true,
-                    'data'=>new CustomerListResource($customer_list),
-                    'message' => 'show tag success'
+                    'data'=>new ProductColorResource($color),
+                    'message' => 'show color success'
                 ];
                 return response()->json($response, 200);
             }else{
                 $response = [
                     'success' => false,
-                    'message' => 'tag is not exist',
+                    'message' => 'color is not exist',
                 ];
                 return response()->json($response, 401);
             }
@@ -87,12 +88,12 @@ class CustomerListController extends Controller
             exit;
         }
     }
-    public function update(StoreCustomerListRequest $request, $id)
+    public function update(StoreProductColorRequest $request, $id)
     {
         try {
             $input = $request->all();
             $input['editedBy'] = $request->user()->id;
-            $customer_list = CustomersList::where('id', $id)->update($input);
+            $color = ProductColor::where('id', $id)->update($input);
             $response = [
                 'success' => true,
                 'message' => 'update tag success',
